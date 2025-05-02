@@ -110,17 +110,25 @@ def plot_fit(x, y, gom_params, wei_params, title="Mortality Fit"):
     gom_y = gompertz_cdf(x_fine, *gom_params)
     wei_y = weibull_cdf(x_fine, *wei_params)
 
-    plt.figure(figsize=(10, 6))
-    plt.scatter(x, y, color='black', label='Observed Mortality')
-    plt.plot(x_fine, gom_y, '--', label='Gompertz Fit', color='blue')
-    plt.plot(x_fine, wei_y, ':', label='Weibull Fit', color='red')
-    plt.title(title)
-    plt.xlabel("Life Expectancy (Years)")
-    plt.ylabel("Cumulative Mortality")
-    plt.grid(True)
-    plt.legend()
-    plt.tight_layout()
-    plt.show()
+    fig, ax = plt.subplots(figsize=(10, 6))
+    ax.scatter(x, y, color='black', label='Observed Mortality')
+    
+    x_fine = np.linspace(min(x), max(x), 300)
+    gom_y = gompertz_cdf(x_fine, *gom_params)
+    wei_y = weibull_cdf(x_fine, *wei_params)
+    
+    ax.plot(x_fine, gom_y, '--', label='Gompertz Fit', color='blue')
+    ax.plot(x_fine, wei_y, ':', label='Weibull Fit', color='red')
+    
+    ax.set_title(title)
+    ax.set_xlabel("Life Expectancy (Years)")
+    ax.set_ylabel("Cumulative Mortality")
+    ax.grid(True)
+    ax.legend()
+    fig.tight_layout()
+    
+    return fig
+
 
 # --------------------------
 # MAIN PIPELINE
@@ -145,9 +153,10 @@ def run_pipeline(image_path):
     print(f"Gompertz: a = {gom_annual[0]:.5f}, b = {gom_annual[1]:.5f} (annual scale)")
     print(f"Weibull:  shape = {wei_annual[0]:.5f}, scale = {wei_annual[1]:.5f} (annual scale)")
 
-    plot_fit(x, y, gom, wei, title="Fitted Mortality Curves (Truncated at 1% Survival)")
+    fig = plot_fit(x, y, gom, wei, title="Fitted Mortality Curves (Truncated at 1% Survival)")
 
     return {
         "gompertz": gom_annual,
-        "weibull": wei_annual
+        "weibull": wei_annual,
+        "fig":fig
     }
