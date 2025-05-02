@@ -30,7 +30,7 @@ if uploaded_file:
             wei = fitted['weibull']
 
             # Capture curve plot BEFORE it gets cleared by future plots
-            fig = plt.gcf()
+            fig = fitted["fig"]
             st.session_state["fit_fig"] = fig
 
             # Store values
