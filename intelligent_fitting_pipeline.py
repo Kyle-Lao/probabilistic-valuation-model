@@ -112,22 +112,16 @@ def plot_fit(x, y, gom_params, wei_params, title="Mortality Fit"):
 
     fig, ax = plt.subplots(figsize=(10, 6))
     ax.scatter(x, y, color='black', label='Observed Mortality')
-    
-    x_fine = np.linspace(min(x), max(x), 300)
-    gom_y = gompertz_cdf(x_fine, *gom_params)
-    wei_y = weibull_cdf(x_fine, *wei_params)
-    
     ax.plot(x_fine, gom_y, '--', label='Gompertz Fit', color='blue')
     ax.plot(x_fine, wei_y, ':', label='Weibull Fit', color='red')
-    
     ax.set_title(title)
     ax.set_xlabel("Life Expectancy (Years)")
     ax.set_ylabel("Cumulative Mortality")
     ax.grid(True)
     ax.legend()
     fig.tight_layout()
-    
     return fig
+
 
 
 # --------------------------
