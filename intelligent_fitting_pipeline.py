@@ -152,5 +152,5 @@ def run_pipeline(image_path):
     return {
         "gompertz": gom_annual,
         "weibull": wei_annual,
-        "fig":fig
+        "fig": fig
     }
