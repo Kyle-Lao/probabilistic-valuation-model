@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import hashlib
 
 st.set_page_config(layout="wide")
-st.title("🧠 Life Settlement Actuarial Toolkit")
+st.title("🧠 Probabilistic Valuation Model for Life Settlements")
 
 # ------------------ Curve Fitting Section ------------------
 
@@ -95,7 +95,7 @@ if st.session_state.get("fitted_result"):
         )
         st.pyplot(fig)
 
-        st.subheader("💰 Interpolated Present Value at Updated LE (Today)")
+        st.subheader("💰 Net Present Policy Value at Updated LE (Today)")
         col_g, col_w = st.columns(2)
         col_g.metric("Gompertz Estimate", f"${gom_stats['interpolated']:,.0f}")
         col_w.metric("Weibull Estimate", f"${wei_stats['interpolated']:,.0f}")
