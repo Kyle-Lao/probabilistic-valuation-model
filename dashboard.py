@@ -1,3 +1,5 @@
+# ---------- dashboard.py ----------
+
 import streamlit as st
 from intelligent_fitting_pipeline import run_pipeline
 from monte_carlo_simulation import run_simulation_ui
@@ -5,11 +7,11 @@ import matplotlib.pyplot as plt
 import hashlib
 
 st.set_page_config(layout="wide")
-st.title("🧠 Probabilistic Pricing Model for Life Settlements")
+st.title("🧠 Life Settlement Actuarial Toolkit")
 
 # ------------------ Curve Fitting Section ------------------
 
-st.header("📈 Life Table Mortality Curve Fitting (Gompertz & Weibull)")
+st.header("📈 Life Table Curve Fitting (Gompertz & Weibull)")
 
 @st.cache_resource(show_spinner="Fitting curves from image...")
 def cached_run_pipeline(image_bytes):
@@ -28,12 +30,9 @@ if uploaded_file:
             fitted = cached_run_pipeline(image_bytes)
             gom = fitted['gompertz']
             wei = fitted['weibull']
+            fig = fitted['fig']
 
-            # Capture curve plot BEFORE it gets cleared by future plots
-            fig = fitted["fig"]
             st.session_state["fit_fig"] = fig
-
-            # Store values
             st.session_state.fitted_result = fitted
             st.session_state.last_image_hash = image_hash
             st.session_state["gom_a"] = gom[0]
@@ -61,15 +60,15 @@ if uploaded_file:
 # ------------------ Monte Carlo Section ------------------
 
 st.markdown("---")
-st.header("📊 Policy Valuation with Monte Carlo Simulations")
+st.header("📊 Monte Carlo Policy Valuation")
 
 if st.session_state.get("fitted_result"):
     col1, col2 = st.columns(2)
 
     with col1:
         face_value = st.number_input("Face Value ($)", value=1000000)
-        cash_value = st.number_input("Cash Surrender Value ($)", value=50000)
-        premium_annual = st.number_input("Average Annual Premiums to LE ($)", value=30000)
+        cash_value = st.number_input("Cash Value ($)", value=50000)
+        premium_annual = st.number_input("Annual Premium ($)", value=30000)
         le_at_report = st.number_input("LE at Report Date (months)", value=72)
         le_report_date = st.date_input("LE Report Date")
 
@@ -93,7 +92,7 @@ if st.session_state.get("fitted_result"):
         )
         st.pyplot(fig)
 
-        st.subheader("💰 Net Present Policy Value at Updated LE (Today)")
+        st.subheader("💰 Interpolated Present Value at Updated LE (Today)")
         col_g, col_w = st.columns(2)
         col_g.metric("Gompertz Estimate", f"${gom_stats['interpolated']:,.0f}")
         col_w.metric("Weibull Estimate", f"${wei_stats['interpolated']:,.0f}")
