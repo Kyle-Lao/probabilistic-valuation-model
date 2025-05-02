@@ -63,7 +63,7 @@ if uploaded_file:
 # ------------------ Monte Carlo Section ------------------
 
 st.markdown("---")
-st.header("📊 Monte Carlo Policy Valuation")
+st.header("📊 Policy Valuation with Monte Carlo Simulations")
 
 if st.session_state.get("fitted_result"):
     col1, col2 = st.columns(2)
