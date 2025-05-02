@@ -97,8 +97,8 @@ if st.session_state.get("fitted_result"):
 
         st.subheader("💰 Net Present Policy Value at Updated LE (Today)")
         col_g, col_w = st.columns(2)
-        col_g.metric("Valuation Estimate with Fitted Gompertz Curve", f"${gom_stats['interpolated']:,.0f}")
-        col_w.metric("Valuation Estimate with Fitted Weibull Curve", f"${wei_stats['interpolated']:,.0f}")
+        col_g.metric("Estimated Current Valuation based on Fitted Gompertz Curve", f"${gom_stats['interpolated']:,.0f}")
+        col_w.metric("Estimated Current Valuation based on Fitted Weibull Curve", f"${wei_stats['interpolated']:,.0f}")
         st.caption(f"📆 Adjusted LE as of today: **{le_adjusted:.1f} months**")
 else:
     st.info("Please upload and fit a life table image first to populate Monte Carlo inputs.")
