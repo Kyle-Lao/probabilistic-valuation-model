@@ -95,7 +95,7 @@ if st.session_state.get("fitted_result"):
         )
         st.pyplot(fig)
 
-        st.subheader("💰 Net Present Policy Value at Updated LE (Today)")
+        st.subheader("💰 Net Present Policy Value as of Today")
         col_g, col_w = st.columns(2)
         col_g.metric("Gompertz Valuation", f"${gom_stats['interpolated']:,.0f}")
         col_w.metric("Weibull Valuation", f"${wei_stats['interpolated']:,.0f}")
