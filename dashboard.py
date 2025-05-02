@@ -13,8 +13,7 @@ st.title("🧠 Life Settlement Actuarial Toolkit")
 
 st.header("📈 Life Table Curve Fitting (Gompertz & Weibull)")
 
-@st.cache_resource(show_spinner="Fitting curves from image...")
-def cached_run_pipeline(image_bytes):
+def run_pipeline_uncached(image_bytes):
     with open("temp_life_table_image.png", "wb") as f:
         f.write(image_bytes)
     return run_pipeline("temp_life_table_image.png")
@@ -27,10 +26,14 @@ if uploaded_file:
 
     if "last_image_hash" not in st.session_state or image_hash != st.session_state.last_image_hash:
         try:
-            fitted = cached_run_pipeline(image_bytes)
-            gom = fitted['gompertz']
-            wei = fitted['weibull']
-            fig = fitted['fig']
+            fitted = run_pipeline_uncached(image_bytes)
+            gom = fitted.get('gompertz')
+            wei = fitted.get('weibull')
+            fig = fitted.get('fig')
+
+            if fig is None:
+                st.error("❌ Failed to generate visualization chart. Please re-upload a clearer image.")
+                st.stop()
 
             st.session_state["fit_fig"] = fig
             st.session_state.fitted_result = fitted
@@ -99,3 +102,4 @@ if st.session_state.get("fitted_result"):
         st.caption(f"📆 Adjusted LE as of today: **{le_adjusted:.1f} months**")
 else:
     st.info("Please upload and fit a life table image first to populate Monte Carlo inputs.")
+
