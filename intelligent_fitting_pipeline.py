@@ -12,7 +12,7 @@ import os
 # CONFIGURATION
 # --------------------------
 load_dotenv()
-api_key = os.getenv("OPENAI_API_KEY")
+api_key = st.secrets["OPENAI_API_KEY"]
 
 # --------------------------
 # MODEL FUNCTIONS
