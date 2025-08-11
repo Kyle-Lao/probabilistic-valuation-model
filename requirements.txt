@@ -6,3 +6,4 @@ scipy
 statsmodels
 openai
 python-dotenv
+openpyxl
